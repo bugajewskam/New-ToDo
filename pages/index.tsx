@@ -6,32 +6,42 @@ import { useMemo, useState } from 'react'
 import { ToDo } from '../interface/interface'
 import styles from '../styles/Home.module.css'
 import darkDesktop from "../public/src/bg-desktop-dark.jpg"
-import { Container, TextField } from '@mui/material'
 import CheckboxList from '../component/List'
-
+import DialogAlert from '../component/Dialog'
+import { Button, ToggleButton, ToggleButtonGroup, Container, Typography, TextField, Box } from '@mui/material'
 
 type Filter = "all" | "isDone" | "toDo"
 const Home: NextPage = () => {
 
 
-  const [listToDo, setListToDo] = useState<ToDo[]>([])
+  const [listToDo, setListToDo] = useState<ToDo[] | []>([])
   const [toDo, setToDo] = useState<string>("")
   const [filter, setFilter] = useState<Filter>("all")
+  const [openDeleteItems, setOpenDeleteItems] = useState(false);
+  const [openDeleteItem, setOpenDeleteItem] = useState<number | null>(null)
+  // const [editing, setEditing] = useState(false)
   const handleChange = (e: any) => setToDo(e.target.value);
   const handleAdd = (e: any) => {
     e.preventDefault();
-    console.log("działa")
     const newToDo: ToDo = {
       toDo: toDo,
       id: Math.floor(Math.random() * 1000),
-      isDone: false
+      isDone: false,
+      isEditing: false
     }
     setListToDo(listToDo => [...listToDo, newToDo]);
     setToDo("")
   }
-  const handleRemove = (id: number) => {
-    const newList = listToDo.filter((item) => item.id !== id);
+  const handleRemove = () => {
+    const newList = listToDo.filter((item) => item.id !== openDeleteItem);
     setListToDo(newList)
+    setOpenDeleteItem(null)
+  }
+  const handleEdit = (id: number) => {
+    const item = listToDo.find(item => item.id === id)
+    if (!item) return;
+    item.isEditing = true
+    setListToDo([...listToDo])
   }
 
   const handleToggle = (id: number) => {
@@ -42,7 +52,47 @@ const Home: NextPage = () => {
 
   }
 
+
+  const handleClickOpen = () => {
+    setOpenDeleteItems(true);
+  };
+  const handleOpenDialog = (id: number) => {
+    setOpenDeleteItem(id)
+  }
+  const handleCloseDeleteItem = (id: number) => {
+    setOpenDeleteItem(null)
+  }
+  const handleClose = () => {
+    setOpenDeleteItems(false);
+  };
+
+  const handleDelete = () => {
+    setListToDo([]);
+    setOpenDeleteItems(false);
+  }
+  const handleFilter = (event: React.MouseEvent<HTMLElement>,
+    newFilter: Filter) => {
+    setFilter(newFilter)
+  }
+  const handleChangeEdit = (e: any) => {
+    setToDo(e.target.value)
+    
+  }
+  const handleEditSubmit = (id: number, e : any) => {
+    e.preventDefault();
+    const editItem = listToDo.find(item => item.id === id)
+    if (!editItem) return;
+    editItem.toDo = e.target[0].value;
+    console.log(e.target.elements.toDo.value)
+    editItem.isEditing = false;
+    setListToDo([...listToDo])
+
+    console.log(listToDo)
+
+  }
+
   const filterList = useMemo(() => {
+
     if (filter === "all") {
       return [...listToDo]
     }
@@ -53,8 +103,8 @@ const Home: NextPage = () => {
       return [...listToDo].filter(i => !i.isDone)
     }
   }, [filter, listToDo])
+
   console.log(listToDo)
-  console.log(listToDo.length)
   return (
     <>
       <Head>
@@ -66,28 +116,45 @@ const Home: NextPage = () => {
         <p className="h1 display-4">TO DO</p>
       </div>
       <div className='flex'>
-        <div>
-          <div className="input">
-            <form onSubmit={handleAdd}>
-              <input value={toDo} onChange={handleChange} />
+          <Box
+            className="input"
+            sx={{
+              width: 600,
+              maxWidth: '100%',
+              backgroundColor: "white",
+              border: 1,
+              borderColor: "gray",
+              borderRadius: "10px"
+            }}>
+            <form className="input" onSubmit={handleAdd}>
+              <TextField fullWidth className='input' value={toDo} onChange={handleChange} />
             </form>
+          </Box>
+        <div className='scroll' >
+           <CheckboxList listToDo={filterList} onRemove={handleOpenDialog}
+            onToggle={handleToggle} onEdit={handleEdit} 
+            onEditSubmit={handleEditSubmit} toDo={toDo} onChange={handleChangeEdit} />
+        </div>
+        <DialogAlert handleClose={handleCloseDeleteItem} handleDelete={handleRemove} open={!!openDeleteItem} />
+        <div>
+          <div className='footer'>
+            <Typography>{listToDo.length} items</Typography>
+            <ToggleButtonGroup
+              value={filter}
+              exclusive
+              onChange={handleFilter}
+              aria-label="text alignment"
+            >
+              <ToggleButton className="filter" value="all">All</ToggleButton>
+              <ToggleButton className="filter" value="isDone">Is Done</ToggleButton>
+              <ToggleButton className="filter" value="toDo">To Do</ToggleButton>
+
+            </ToggleButtonGroup>
+            <Button onClick={handleClickOpen}>Delete all</Button>
           </div>
         </div>
 
-        <div className='scroll'>
-          <CheckboxList listToDo={filterList} onRemove={handleRemove} onToggle={handleToggle} />
-        </div>
-        <div>
-          <div className='footer'>
-            <p>{listToDo.length} items</p>
-            <div>
-              <button className="filter" onClick={(e) => setFilter("all")}>All</button>
-            <button className="filter" onClick={(e) => setFilter("isDone")}>Is Done</button>
-            <button className="filter" onClick={(e) => setFilter("toDo")}>To Do</button>
-            </div>
-            <button className="filter" onClick={e => setListToDo([])}>Delete all</button>
-          </div>
-        </div>
+        <DialogAlert handleClose={handleClose} handleDelete={handleDelete} open={openDeleteItems} />
       </div>
     </>
   )
