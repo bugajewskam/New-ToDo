@@ -6,9 +6,10 @@ import { useMemo, useState } from 'react'
 import { ToDo } from '../interface/interface'
 import styles from '../styles/Home.module.css'
 import darkDesktop from "../public/src/bg-desktop-dark.jpg"
-import CheckboxList from '../component/List'
 import DialogAlert from '../component/Dialog'
 import { Button, ToggleButton, ToggleButtonGroup, Container, Typography, TextField, Box } from '@mui/material'
+import CheckboxList from '../component/List'
+import { arrayMove } from '@dnd-kit/sortable'
 
 type Filter = "all" | "isDone" | "toDo"
 const Home: NextPage = () => {
@@ -43,6 +44,17 @@ const Home: NextPage = () => {
     item.isEditing = true
     setListToDo([...listToDo])
   }
+
+  const handleMoveItems =(id1:number, id2:number) =>{
+
+    setListToDo((items) => {
+      const oldIndex = items.findIndex(item=>item.id === id1);
+      const newIndex = items.findIndex(item=>item.id === id2);
+
+      return arrayMove(items, oldIndex, newIndex);
+  });
+}
+  
 
   const handleToggle = (id: number) => {
     const item = listToDo.find(item => item.id === id)
@@ -92,16 +104,14 @@ const Home: NextPage = () => {
   }
 
   const filterList = useMemo(() => {
-
-    if (filter === "all") {
-      return [...listToDo]
-    }
     if (filter === "isDone") {
       return [...listToDo].filter(i => i.isDone)
     }
     if (filter === "toDo") {
       return [...listToDo].filter(i => !i.isDone)
     }
+    return [...listToDo]
+
   }, [filter, listToDo])
 
   console.log(listToDo)
@@ -131,9 +141,9 @@ const Home: NextPage = () => {
             </form>
           </Box>
         <div className='scroll' >
-           <CheckboxList listToDo={filterList} onRemove={handleOpenDialog}
+           <CheckboxList listToDo={filterList}  onMoveItems={handleMoveItems} onRemove={handleOpenDialog}
             onToggle={handleToggle} onEdit={handleEdit} 
-            onEditSubmit={handleEditSubmit} toDo={toDo} onChange={handleChangeEdit} />
+            onEditSubmit={handleEditSubmit} onChange={handleChangeEdit} />
         </div>
         <DialogAlert handleClose={handleCloseDeleteItem} handleDelete={handleRemove} open={!!openDeleteItem} />
         <div>

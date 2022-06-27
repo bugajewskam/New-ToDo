@@ -3,7 +3,7 @@ import { ToDo } from "../interface/interface";
 import CheckIcon from '@mui/icons-material/Check';
 import EditIcon from '@mui/icons-material/Edit';
 import ClearIcon from '@mui/icons-material/Clear';
-
+import ReorderIcon from '@mui/icons-material/Reorder';
 import React, { useRef, useImperativeHandle } from "react";
 import { useDrag } from "react-dnd";
 
@@ -16,18 +16,20 @@ interface ItemProps {
     onEdit: (id: number) => void;
     onChange: (e: any) => void;
     onEditSubmit: (id: number, e: any) => void;
+    listeners: any;
 }
 
-export default function ItemList({ item, onChange, onEdit, onEditSubmit, onRemove, onToggle }: ItemProps) {
-    const handleToggle = (value: number) => () => onToggle(value);
+export default function ItemList({ item, onChange, onEdit, onEditSubmit, onRemove, onToggle, listeners }: ItemProps) {
+    const handleToggle = (value: number) => () => { onToggle(value)};
     const handleRemove = (id: number) => () => onRemove(id);
     const handleEdit = (id: number) => () => onEdit(id)
     const handleChange = (e: any) => () => onChange(e)
     const handleEditSubmit = (id: number) => (e: any) => onEditSubmit(id, e)
-
+    if(!item)return null
 
 
     return (
+        <>
         <ListItem
             key={item.id}
         >
@@ -69,9 +71,16 @@ export default function ItemList({ item, onChange, onEdit, onEditSubmit, onRemov
                             <ClearIcon />
                         </ListItemIcon>
                     </IconButton>
+                    
+                    <IconButton sx={{ width: 24, marginLeft: 3, marginRight: 0 }} {...listeners}>
+                        <ListItemIcon>
+                            <ReorderIcon />
+                        </ListItemIcon>
+                    </IconButton>
                 </>
             }
         </ListItem>
+        </>
 
     );
 }
