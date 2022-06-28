@@ -1,20 +1,17 @@
 
 import * as React from 'react';
 import { ToDo } from '../interface/interface';
-import ItemList from '../component/ListItem';
 import {
     closestCenter,
     DndContext,
-    DragOverlay,
     KeyboardSensor,
     PointerSensor,
     useSensor,
     useSensors,
 } from '@dnd-kit/core';
-import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy, } from '@dnd-kit/sortable';
+import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy, } from '@dnd-kit/sortable';
 import MySortableListItem from "./SortableListItem";
-import MyListItem from "./MyListItem";
-import { List, Paper } from "@mui/material";
+import { List } from "@mui/material";
 import { useState } from 'react';
 
 

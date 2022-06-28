@@ -2,51 +2,28 @@ import '../styles/globals.css'
 import "../styles/style.css"
 import type { AppProps } from 'next/app'
 import { createTheme } from '@mui/material';
-import { ThemeProvider } from '@emotion/react';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-const theme = createTheme({
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          backgroundColor: "transparent",
-          color: "primary"
-        }
-      }
-    },
-    MuiTypography: {
-      styleOverrides: {
-        root: {
-          color: "primary"
-        }
-      }
-    }
-  }
+import { ThemeProvider } from '@mui/material';
 
-});
-
-const color = createTheme({
+export const theme = createTheme({
   palette: {
     primary: {
-      main: "hsl(300, 80%, 50%)",
+      main: "#ff0000",
     },
+    text: {
+      primary: '#00ff00',
+    }
   },
-  typography: {
-    fontFamily: 'Josefin Sans',
-    fontSize: 18,
-  }
-})
+});
 
 function MyApp({ Component, pageProps }: AppProps) {
 
   return (
 
-      <ThemeProvider theme={theme}>
-        <ThemeProvider theme={color}>
-          <Component {...pageProps} />
+      
+        <ThemeProvider theme={theme}>
+          <Component {...pageProps}/>
         </ThemeProvider>
-      </ThemeProvider>
+
   )
 }
 

@@ -5,19 +5,18 @@ input {
     border-radius: 10px;
     font-size: 30px;
     width: 600px;
-    color: pink
 }
 
 
 
 .flex {
-    color:"primary";
     width: 100%;
     height: 80%;
     display: flex;
     flex-direction: column;
     position: absolute;
     top: 130px;
+
 }
 
 input:hover {
@@ -31,7 +30,7 @@ input:hover {
     height: 400px;
     border-radius: 8px;
     margin: auto;
-    color: "primary";
+    
 
 }
 
@@ -42,9 +41,10 @@ input:hover {
     border-style: solid;
     font-size: 18px;
     width: 600px;
-    color: "primary"
+    
 
 }
+
 
 
 .banner {
@@ -96,7 +96,7 @@ li~li {
 } */
 
 filter::after {
-    background-color: red;
+
     color: hsl(220, 98%, 61%);
 
 }
