@@ -119,7 +119,7 @@ const Home: NextPage = () => {
     <Box sx={{ color: "text.primary" }}>
       <Head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossrigin />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link
           href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@1,200&display=swap"
           rel="stylesheet"
@@ -128,7 +128,7 @@ const Home: NextPage = () => {
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
         />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge"></meta>
+        <meta httpEquiv="X-UA-Compatible" content="ie=edge"></meta>
       </Head>
       <div className="banner">
         <p className="h1 display-4">TO DO</p>
