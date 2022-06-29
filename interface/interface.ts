@@ -1,6 +1,6 @@
 export interface ToDo {
-    id: number;
-    toDo: string;
-    isDone: boolean;
-    isEditing: boolean
+  id: number;
+  toDo: string;
+  isDone: boolean;
+  isEditing: boolean;
 }
