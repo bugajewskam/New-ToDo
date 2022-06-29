@@ -2,5 +2,5 @@ export interface ToDo {
   id: number;
   toDo: string;
   isDone: boolean;
-  isEditing: boolean;
+  isEditing?: boolean;
 }
