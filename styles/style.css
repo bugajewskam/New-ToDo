@@ -44,6 +44,9 @@ input:hover {
   .banner {
     background-image: url("../public/src/bg-mobile-light.jpg");
   }
+  .lockPointerEvents {
+    touch-action: none;
+  }
 }
 
 .banner {

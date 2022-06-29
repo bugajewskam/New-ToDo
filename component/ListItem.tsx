@@ -115,6 +115,7 @@ export default function ItemList({
             <IconButton
               sx={{ width: 24, marginLeft: 3, marginRight: 0 }}
               {...listeners}
+              className={"lockPointerEvents"}
             >
               <ListItemIcon>
                 <ReorderIcon />
