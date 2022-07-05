@@ -12,8 +12,8 @@
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 130px;
-  height: calc(100% - 130px);
+  top: 60px;
+  height: calc(100% - 60px);
   align-items: center;
 }
 
@@ -33,16 +33,12 @@ input:hover {
   width: calc(100% - 32px);
 }
 
-.list {
-  background-color: hsl(0, 0%, 98%);
-  border-style: solid;
-  font-size: 18px;
-  max-width: 600px;
-}
-
 @media only screen and (max-width: 400px) {
   .banner {
     background-image: url("../public/src/bg-mobile-light.jpg");
+  }
+  .dark .banner {
+    background-image: url("../public/src/bg-mobile-dark.jpg");
   }
   .lockPointerEvents {
     touch-action: none;
@@ -61,10 +57,6 @@ input:hover {
   align-items: center;
 }
 
-div {
-  margin: auto;
-}
-
 .banner > p {
   color: white;
   padding: 10px;
@@ -74,7 +66,12 @@ li ~ li {
   border-top: 1px solid rgb(157, 153, 153);
   /* rodzeństwo */
 }
-
+.switch {
+  display: flex;
+  justify-content: end;
+  width: 600px;
+  max-width: calc(100% - 32px);
+}
 .footer {
   max-width: 600px;
   display: flex;
@@ -92,4 +89,12 @@ li ~ li {
 .filter:hover {
   background-color: transparent;
   color: hsl(235, 19%, 35%);
+}
+
+.dark {
+  background: rgb(56, 55, 55);
+}
+
+.dark .banner {
+  background-image: url("../public/src/bg-desktop-dark.jpg");
 }

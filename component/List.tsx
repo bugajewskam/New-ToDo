@@ -83,12 +83,8 @@ export default function CheckboxList({
     >
       <List
         sx={{
-          maxWidth: 600,
-          color: "primary",
-          bgcolor: "background.paper",
-          borderRadius: 2,
-          boxShadow: 1,
-          my: 2,
+          py:2,
+      
         }}
       >
         <SortableContext

@@ -10,11 +10,18 @@ import {
   Typography,
   TextField,
   Box,
+  useTheme,
+  IconButton,
 } from "@mui/material";
 import CheckboxList from "../component/List";
 import { arrayMove } from "@dnd-kit/sortable";
 import Auth from "../component/Auth";
 import { supabase } from "../utils/supabase-client";
+import CustomizedSwitches from "../component/Switch";
+import React from "react";
+import { ColorModeContext } from "./_app";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
 
 type Filter = "all" | "isDone" | "toDo";
 const Home: NextPage = () => {
@@ -24,6 +31,8 @@ const Home: NextPage = () => {
   const [openDeleteItems, setOpenDeleteItems] = useState(false);
   const [openDeleteItem, setOpenDeleteItem] = useState<number | null>(null);
   const [session, setSession] = useState<any>(null);
+  const theme = useTheme();
+  const colorMode = React.useContext(ColorModeContext);
 
   useEffect(() => {
     setSession(supabase.auth.session());
@@ -45,6 +54,7 @@ const Home: NextPage = () => {
   const handleChange = (e: any) => setToDo(e.target.value);
   const handleAdd = (e: any) => {
     e.preventDefault();
+    if (!toDo) return;
     supabase
       .from("todo")
       .insert({ toDo, email: supabase.auth.session().user?.email })
@@ -175,10 +185,15 @@ const Home: NextPage = () => {
             />
             <meta httpEquiv="X-UA-Compatible" content="ie=edge"></meta>
           </Head>
-          <div className="banner">
-            <p className="h1 display-4">TO DO</p>
-          </div>
+          <Box className="banner">
+          </Box>
+
           <div className="flex">
+            <div className="switch">
+              <CustomizedSwitches />
+            </div>
+            <p className="h1 display-4">TO DO</p>
+
             <Box
               sx={{
                 width: 600,
@@ -200,7 +215,17 @@ const Home: NextPage = () => {
                 />
               </form>
             </Box>
-            <div className="scroll">
+            <Box
+              className="scroll"
+              sx={{
+                maxWidth: 600,
+                color: "primary",
+                bgcolor: "background.paper",
+                borderRadius: 2,
+                boxShadow: 1,
+                my: 2,
+              }}
+            >
               <CheckboxList
                 listToDo={filterList}
                 onMoveItems={handleMoveItems}
@@ -210,7 +235,8 @@ const Home: NextPage = () => {
                 onEditSubmit={handleEditSubmit}
                 onChange={handleChangeEdit}
               />
-            </div>
+            </Box>
+
             <DialogAlert
               handleClose={handleCloseDeleteItem}
               handleDelete={handleRemove}
@@ -219,23 +245,52 @@ const Home: NextPage = () => {
             <div>
               <div className="footer">
                 <Typography>{listToDo.length} items</Typography>
+
                 <ToggleButtonGroup
                   value={filter}
                   exclusive
                   onChange={handleFilter}
-                  // aria-label="text alignment"
+                  aria-label="text alignment"
+                  sx={{ border: "none", marginLeft: 3, marginRight: 3 }}
                 >
-                  <ToggleButton className="filter" value="all">
+                  <ToggleButton
+                    value="all"
+                    sx={{
+                      border: "none",
+                      backgroundColor: "inherit",
+                      padding: 1,
+                    }}
+                  >
                     All
                   </ToggleButton>
-                  <ToggleButton className="filter" value="isDone">
-                    Is Done
+                  <ToggleButton
+                    value="isDone"
+                    sx={{
+                      border: "none",
+                      backgroundColor: "inherit",
+                      padding: 1,
+                    }}
+                  >
+                    Done
                   </ToggleButton>
-                  <ToggleButton className="filter" value="toDo">
+                  <ToggleButton
+                    value="toDo"
+                    sx={{
+                      border: "none",
+                      backgroundColor: "inherit",
+                      padding: 1,
+                    }}
+                  >
                     To Do
                   </ToggleButton>
                 </ToggleButtonGroup>
-                <Button onClick={handleClickOpen}>Delete all</Button>
+                <Button  
+                sx={{
+                  text:"primary" ,
+                    border: "none",
+                      backgroundColor: "inherit",
+                      padding: 1,}} 
+                      onClick={handleClickOpen}>Delete all</Button>
               </div>
             </div>
 
