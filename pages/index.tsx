@@ -1,8 +1,9 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { ToDo } from "../interface/interface";
 import DialogAlert from "../component/Dialog";
+import LogoutIcon from '@mui/icons-material/Logout';
 import {
   Button,
   ToggleButton,
@@ -167,6 +168,9 @@ const Home: NextPage = () => {
     }
     return [...listToDo];
   }, [filter, listToDo]);
+  const handleLogOut = useCallback(async () => {
+    const { error } = await supabase.auth.signOut();
+  }, []);
 
   return (
     <>
@@ -174,25 +178,33 @@ const Home: NextPage = () => {
         <Box sx={{ color: "text.primary" }}>
           <Head>
             <link rel="preconnect" href="https://fonts.googleapis.com" />
-            <link rel="preconnect" href="https://fonts.gstatic.com" />
             <link
-              href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@1,200&display=swap"
+              rel="preconnect"
+              href="https://fonts.gstatic.com"
+              crossorigin
+            />
+            <link
+              href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@1,100&display=swap"
               rel="stylesheet"
             />
+
             <meta
               name="viewport"
               content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
             />
             <meta httpEquiv="X-UA-Compatible" content="ie=edge"></meta>
           </Head>
-          <Box className="banner">
-          </Box>
+          <Box className="banner"></Box>
 
           <div className="flex">
+ 
             <div className="switch">
               <CustomizedSwitches />
+              <IconButton  onClick={handleLogOut}>
+                <LogoutIcon sx={{color: "white"}}/>
+              </IconButton>
             </div>
-            <p className="h1 display-4">TO DO</p>
+            <p className="toDo">TO DO</p>
 
             <Box
               sx={{
@@ -205,11 +217,11 @@ const Home: NextPage = () => {
                 mx: 2,
               }}
             >
-              <form className="input" onSubmit={handleAdd}>
+              <form onSubmit={handleAdd}>
                 <TextField
                   color="primary"
+                  sx={{ borderRadius: 8 }}
                   fullWidth
-                  className="input"
                   value={toDo}
                   onChange={handleChange}
                 />
@@ -244,53 +256,52 @@ const Home: NextPage = () => {
             />
             <div>
               <div className="footer">
-                <Typography>{listToDo.length} items</Typography>
-
-                <ToggleButtonGroup
-                  value={filter}
-                  exclusive
-                  onChange={handleFilter}
-                  aria-label="text alignment"
-                  sx={{ border: "none", marginLeft: 3, marginRight: 3 }}
-                >
-                  <ToggleButton
-                    value="all"
+                <div>
+                  <Typography>{listToDo.length} items</Typography>
+                </div>
+                <div>
+                  <ToggleButtonGroup
+                    value={filter}
+                    exclusive
+                    onChange={handleFilter}
+                    aria-label="text alignment"
                     sx={{
                       border: "none",
-                      backgroundColor: "inherit",
-                      padding: 1,
+                      marginLeft: 3,
+                      marginRight: 3,
+                      "& .Mui-selected": {
+                        background: "transparent !important",
+                        color: "black",
+                      },
                     }}
                   >
-                    All
-                  </ToggleButton>
-                  <ToggleButton
-                    value="isDone"
+                    <ToggleButton value="all" size="small" className="filter">
+                      All
+                    </ToggleButton>
+                    <ToggleButton
+                      value="isDone"
+                      size="small"
+                      className="filter"
+                    >
+                      Done
+                    </ToggleButton>
+                    <ToggleButton value="toDo" size="small" className="filter">
+                      To Do
+                    </ToggleButton>
+                  </ToggleButtonGroup>
+                </div>
+                <div>
+                  <Button
+                    size="small"
                     sx={{
-                      border: "none",
-                      backgroundColor: "inherit",
-                      padding: 1,
+                      color: "text.primary",
                     }}
+                    className="filter"
+                    onClick={handleClickOpen}
                   >
-                    Done
-                  </ToggleButton>
-                  <ToggleButton
-                    value="toDo"
-                    sx={{
-                      border: "none",
-                      backgroundColor: "inherit",
-                      padding: 1,
-                    }}
-                  >
-                    To Do
-                  </ToggleButton>
-                </ToggleButtonGroup>
-                <Button  
-                sx={{
-                  text:"primary" ,
-                    border: "none",
-                      backgroundColor: "inherit",
-                      padding: 1,}} 
-                      onClick={handleClickOpen}>Delete all</Button>
+                    Delete all
+                  </Button>
+                </div>
               </div>
             </div>
 
