@@ -1,4 +1,5 @@
 import {
+  autocompleteClasses,
   Box,
   Button,
   Card,
@@ -10,43 +11,50 @@ import {
   Typography,
 } from "@mui/material";
 import Image from "next/image";
- 
 
 import { useState } from "react";
 import { supabase } from "../utils/supabase-client";
+import Progress from "./Progress";
 
 export default function Auth() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
-
-  const handleLogin = async (email: string) => {
+  const [emailSent, setEmailSent] = useState(false);
+  const [error, setError] = useState("");
+  const handleLogin = async () => {
     try {
       setLoading(true);
       const { error } = await supabase.auth.signIn({ email });
       if (error) throw error;
-      alert("Check your email for the login link!");
+      setEmailSent(true);
     } catch (error: any) {
-      alert(error.error_description || error.message);
+      setError(error.error_description || error.message);
     } finally {
       setLoading(false);
     }
   };
+  const handleBack = () => {
+    setEmail("");
+    setEmailSent(false);
+    setError("");
+  };
 
   return (
     <Card
-      sx={{
-        maxWidth: 345,
-        marginTop: 10,
-      }}
+    className="card"
+      // sx={{
+      //   maxWidth: 345,
+      //   margin: "auto",
+      //   marginTop: 5,
+      // }}
     >
       <CardMedia
         component="img"
         height="140"
         image="/src/bg-mobile-light.jpg"
         alt="image"
-        >
+      ></CardMedia>
 
-      </CardMedia>
       <CardContent>
         <Typography
           sx={{ display: "flex", justifyContent: "center" }}
@@ -56,61 +64,41 @@ export default function Auth() {
         >
           Log in
         </Typography>
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <TextField
-            className="inputField"
-            type="email"
-            placeholder="Your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </Box>
+        {!emailSent ? (
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <TextField
+              className="inputField"
+              type="email"
+              placeholder="Your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              helperText={error}
+              error={!!error}
+            />
+          </Box>
+        ) : (
+         <Typography sx={{ display: "flex", justifyContent: "center" }}>Check your email</Typography>
+        )}
       </CardContent>
       <CardActions sx={{ display: "flex", justifyContent: "center" }}>
-        <Button
-          onClick={(e) => {
-            e.preventDefault();
-            handleLogin(email);
-          }}
-          className="button block"
-          disabled={loading}
-        >
-          <span>{loading ? "Loading" : "Send magic link"}</span>
-        </Button>
+        {!emailSent ? (
+          <Button
+            onClick={handleLogin}
+            className="button block"
+            disabled={loading}
+          >
+            <span>{loading ? <Progress/> : "Send magic link"}</span>
+          </Button>
+        ) : (
+          <Button
+            onClick={handleBack}
+            className="button block"
+            disabled={loading}
+          >
+            <span>Back</span>
+          </Button>
+        )}
       </CardActions>
     </Card>
   );
 }
-//     <Container maxWidth="sm">
-//     {/* <div className="row flex flex-center">
-//       <div className="col-6 form-widget"> */}
-//         <h1 className="header">Login</h1>
-//         <p className="description">
-//           Sign in via magic link with your email below
-//         </p>
-//         <div>
-//           <input
-//             className="inputField"
-//             type="email"
-//             placeholder="Your email"
-//             value={email}
-//             onChange={(e) => setEmail(e.target.value)}
-//           />
-//         </div>
-//         <div>
-//           <button
-//             onClick={(e) => {
-//               e.preventDefault();
-//               handleLogin(email);
-//             }}
-//             className="button block"
-//             disabled={loading}
-//           >
-//             <span>{loading ? "Loading" : "Send magic link"}</span>
-//           </button>
-//         {/* </div>
-//       </div> */}
-//     </div>
-//     </Container>
-//   );
-// }
