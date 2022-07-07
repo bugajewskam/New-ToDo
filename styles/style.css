@@ -1,26 +1,26 @@
-/* input {
-    border: solid;
-    border-color: hsl(0, 0%, 98%);
-    background-color: hsl(0, 0%, 98%);
-    border-radius: 10px;
-    font-size: 30px;
-    width: 600px;
-} */
+* {
+  font-family: "Josefin Sans", sans-serif;
+  box-sizing: border-box;
+}
 
 .flex {
+  font-family: "Josefin Sans", sans-serif;
+  font-style: italic;
   width: 100%;
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 60px;
-  height: calc(100% - 60px);
+  top: 40px;
+  height: calc(100% - 40px);
   align-items: center;
 }
 
-input:hover {
-  border-color: rgb(226, 43, 202);
+.dark .scroll {
+  background-color: hsl(235, 24%, 19%);
 }
-
+.dark .input {
+  background-color: hsl(235, 24%, 19%);
+}
 .scroll {
   overflow: scroll;
   overflow-x: hidden;
@@ -56,15 +56,21 @@ input:hover {
   justify-content: center;
   align-items: center;
 }
-
-.banner > p {
+.list {
+}
+.toDo {
   color: white;
-  padding: 10px;
+  padding: 5px;
+  font-size: 20px;
 }
 
-li ~ li {
+.sortableListItem + .sortableListItem {
   border-top: 1px solid rgb(157, 153, 153);
+  /* border-bottom: 1px solid red; */
   /* rodzeństwo */
+}
+.dark li {
+  border-bottom: 1px solid hsl(235, 21%, 11%);
 }
 .switch {
   display: flex;
@@ -72,29 +78,80 @@ li ~ li {
   width: 600px;
   max-width: calc(100% - 32px);
 }
+
 .footer {
-  max-width: 600px;
+  width: 600px;
   display: flex;
   justify-content: space-between;
   flex-direction: row;
   bottom: auto;
   align-items: center;
 }
-
-.filter {
-  border: none;
-  background-color: transparent;
-}
-
-.filter:hover {
-  background-color: transparent;
-  color: hsl(235, 19%, 35%);
+@media only screen and (max-width: 440px) {
+  .footer {
+    width: 350px;
+  }
 }
 
 .dark {
-  background: rgb(56, 55, 55);
+  background: hsl(235, 21%, 11%);
 }
 
 .dark .banner {
   background-image: url("../public/src/bg-desktop-dark.jpg");
+}
+
+.filter {
+  border: none;
+  background-color: inherit;
+  padding: 1;
+}
+.filter:hover {
+  background-color: inherit;
+}
+.Mui-selected {
+  background: blue;
+  color: red;
+}
+
+filter:active {
+  background: blue;
+  color: red;
+}
+.MuiToggleButton-focusVisible {
+  background-color: red;
+}
+
+/* Auth */
+
+.card{
+  padding:20px;
+  max-width: 400px;
+  border-radius: 8px;
+  margin-Top: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  -webkit-box-shadow: 17px -13px 72px -11px rgba(171, 171, 171, 1);
+-moz-box-shadow: 17px -13px 72px -11px rgba(171, 171, 171, 1);
+box-shadow: 17px -13px 72px -11px rgba(171, 171, 171, 1);
+}
+
+.auth{
+  /* height: 100%;
+  width: 100%;
+  /* background-image: gradient(hsl(192, 100%, 67%), hsl(280, 87%, 65%)); */
+  /* background-color: red; */ 
+  width: 100%; 
+  height: 100%; 
+  margin: 0em;
+  left: 0em; 
+  top: 0em; 
+  background-image: linear-gradient(138deg,hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+  position: fixed;
+}
+@media only screen and (max-width: 400px) {
+  .card{
+    max-width: 300px;
+
+  }
 }

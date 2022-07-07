@@ -75,38 +75,39 @@ export default function CheckboxList({
     setActiveItem(null);
   }
   return (
-    <DndContext
-      sensors={sensors}
-      collisionDetection={closestCenter}
-      onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
-    >
-      <List
-        sx={{
-          py:2,
-      
-        }}
+    <div className="list">
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
       >
-        <SortableContext
-          items={listToDo}
-          strategy={verticalListSortingStrategy}
+        <List
+          sx={{
+            py: 2,
+          }}
         >
-          {listToDo.map((item) => (
-            <MySortableListItem
-              item={item}
-              key={item.id}
-              onRemove={handleRemove}
-              onEdit={handleEdit}
-              onChange={handleChange}
-              onToggle={handleToggle}
-              onEditSubmit={handleEditSubmit}
-            />
-          ))}
-          <DragOverlay>
-            {activeItem ? <ItemList item={activeItem} /> : null}
-          </DragOverlay>
-        </SortableContext>
-      </List>
-    </DndContext>
+          <SortableContext
+            items={listToDo}
+            strategy={verticalListSortingStrategy}
+          >
+            {listToDo.map((item) => (
+              <MySortableListItem
+                item={item}
+                key={item.id}
+                onRemove={handleRemove}
+                onEdit={handleEdit}
+                onChange={handleChange}
+                onToggle={handleToggle}
+                onEditSubmit={handleEditSubmit}
+              />
+            ))}
+            <DragOverlay>
+              {activeItem ? <ItemList item={activeItem} /> : null}
+            </DragOverlay>
+          </SortableContext>
+        </List>
+      </DndContext>
+    </div>
   );
 }
