@@ -58,7 +58,7 @@ const Home: NextPage = () => {
     if (!toDo) return;
     supabase
       .from("todo")
-      .insert({ toDo, email: supabase.auth.session().user?.email })
+      .insert({ toDo, email: supabase?.auth?.session()?.user?.email })
       .then((result: any) => {
         setListToDo((listToDo) => [...listToDo, result.body[0]]);
         setToDo("");
@@ -125,7 +125,7 @@ const Home: NextPage = () => {
     supabase
       .from("todo")
       .delete()
-      .eq("email", supabase.auth.session().user?.email)
+      .eq("email", supabase?.auth?.session()?.user?.email)
       .then(() => {
         setListToDo([]);
         setOpenDeleteItems(false);
@@ -181,7 +181,7 @@ const Home: NextPage = () => {
             <link
               rel="preconnect"
               href="https://fonts.gstatic.com"
-              crossorigin
+              crossOrigin=""
             />
             <link
               href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@1,100&display=swap"
@@ -207,18 +207,18 @@ const Home: NextPage = () => {
             <p className="toDo">TO DO</p>
 
             <Box
+            className="input"
               sx={{
                 width: 600,
                 maxWidth: "calc(100% - 32px)",
-                backgroundColor: "white",
                 border: 1,
-                borderColor: "gray",
                 borderRadius: "10px",
                 mx: 2,
               }}
             >
               <form onSubmit={handleAdd}>
                 <TextField
+
                   color="primary"
                   sx={{ borderRadius: 8 }}
                   fullWidth

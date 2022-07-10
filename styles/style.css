@@ -18,10 +18,14 @@
 .dark .scroll {
   background-color: hsl(235, 24%, 19%);
 }
+.input{
+  background: #FBFBFB;
+}
 .dark .input {
   background-color: hsl(235, 24%, 19%);
 }
 .scroll {
+  background: #FBFBFB;
   overflow: scroll;
   overflow-x: hidden;
   overflow-y: auto;

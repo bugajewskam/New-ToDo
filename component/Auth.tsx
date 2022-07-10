@@ -85,7 +85,7 @@ export default function Auth() {
                 />
               </Box>
             ) : (
-              <Typography sx={{ display: "flex", justifyContent: "center" }}>
+              <Typography sx={{ display: "flex", justifyContent: "center", color:"hsl(192, 36%, 57%)" }}>
                 Check your email
               </Typography>
             )}
@@ -103,6 +103,7 @@ export default function Auth() {
               </Button>
             ) : (
               <Button
+              sx={{color:"hsl(192, 36%, 57%)"}}
                 onClick={handleBack}
                 className="button block"
                 disabled={loading}
