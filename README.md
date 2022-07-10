@@ -1,6 +1,12 @@
 # To Do App
-To Do application created using Next.js. Application is prepared to be quickly switched to remote repository.
+To Do application created using Next.js. Application uses Supabase as backend. 
 
+## Features 
+* To-do's CRUD,
+* Filtering, 
+* drag and drop sorting, 
+* authorization using magic links, 
+* dark mode.
 
 
 ## Demo
